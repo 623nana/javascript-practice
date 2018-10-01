@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Week3</title>
+        <!-- 자바스크립트 작성 -->
+        <script>
+            /* 배열과 반복문 예제 */
+            var array = ['사과', '바나나', '망고', '딸기'];
+            var product = {
+                제품명: '7D 건조 망고',
+                유형: '당절임',
+                성분: '망고, 설탕 ,메타중아황산나트륨, 치자황색소',
+                원산지: '필리핀',
+                sale: function(price) {
+                    alert(this.제품명 + '을 ' + price + '에 판매합니다.');
+                },
+            };
+
+            alert('product 자료형 ' + typeof(product));
+            alert('array 자료형 ' + typeof(array));
+            
+            alert('배열 접근 세번째 요소: ' + array[2]);
+            alert('객체 접근 유형:' + product.유형);
+            alert('객체 접근 성분:' + product['성분']);
+            
+            product.sale();
+            product.sale(100);
+
+            //for 반복문
+            for(var i = 0; i<array.length ; i++){
+                if(array[i] == '망고'){
+                    alert('망고를 찾았습니다');
+                    break;
+                }
+            }
+
+            //for in 반복문 - array
+            for(var i in array){
+                if(array[i] == '망고'){
+                    alert('망고를 찾았습니다');
+                    break;
+                }
+            }
+
+            //for in 반복문 - product
+            for(var i in product){
+                if(i == '유형'){
+                    alert('유형: ' + product[i]);
+                    break;
+                }
+            }
+
+            alert('성분이 product 객체에 있나요?' + ('성분' in product));
+            with (product){
+                alert('성분: ' + 성분);
+            }
+
+            //객체 속성 추가
+            product.제조사 = 'ABC회사';
+            
+            product.toString = function(){
+                var str = '';
+                
+                for(var key in product){
+                    str += key + '\ ' + product[key] + '\n';
+                }
+                
+                return str;
+            }
+
+            alert(product.toString());
+            alert(product);
+
+            //delete 키워드
+            delete(product.유형);
+            alert(product);
+
+            //생성자 함수
+            function Student(name, korean, math){
+                this.이름 = name;
+                this.국어 = korean;
+                this.수학 = math;
+
+                this.getSum = function(){
+                    return this.국어 + this.수학;
+                }
+
+                this.getAverage = function(){
+                    return this.getSum() / 2;
+                }
+
+                this.toString = function(){
+                    return this.이름 + '\t' + this.getSum() + '\t' + this.getAverage();
+                }
+            }
+
+            var student = new Student('나현정', 100, 100);
+            alert(student);
+
+            var students = [];
+            students.push(new Student('나현정', 100, 100));
+            students.push(new Student('안녕염', 100, 100));
+
+            //생성자 함수에 메서드 추가
+            Student.prototype.getMax = function(num1, num2){
+                return num1 > num2 ? num1 : num2;
+            }
+
+            //Number 객체
+            var primitiveNumber = 273;
+            var objectiveNumber = new Number(273);
+            
+            alert('primitiveNumber' + typeof(primitiveNumber));
+            alert('objectiveNumber' + typeof(objectiveNumber));
+            
+            // primitiveNumber.test = function () {
+            //     alert('test함수1');
+            //     return;
+            // }
+
+            objectiveNumber.test = function () {
+                alert('test함수2');
+                return;
+            }
+
+            Number.prototype.method = function (type) {
+                alert('method 함수' + type);
+                return;
+            }
+
+            // primitiveNumber.test();
+            objectiveNumber.test();
+            primitiveNumber.method('primitive');
+            objectiveNumber.method('objective');
+
+            var priStr = 'Hello world...';
+            var objStr = new String('Hello world...');
+
+            alert('priStr ' + typeof(priStr));
+            alert('objStr ' + typeof(objStr));
+
+            alert('길이 ' + priStr.length);
+            alert('subString ' + objStr.substring(1, 3));
+            alert('sutStr ' + objStr.substr(1, 3));
+            alert('upperCase ' + objStr.toUpperCase());
+            alert('lowerCase ' + objStr.toLowerCase());
+
+            //실습문제
+            function Product (이름, 무게, 가격){
+                this.이름 = 이름;
+                this.무게 = 무게;
+                this.가격 = 가격;
+            };
+
+            Product.prototype.Calculate = function (weight) {
+                    return this.가격 * weight / this.무게 + '원';
+                };
+
+            var products = new Product('대지 삼겹살', 100, 1690);
+            alert(products.Calculate(200));
+
+        </script>
+    </head>
+    <body>
+        <h1>3주차 실습 예제</h1>
+    </body>
+</html>

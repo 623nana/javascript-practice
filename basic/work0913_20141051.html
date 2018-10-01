@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Week2</title>
+        <!-- 자바스크립트 작성 -->
+        <script>
+
+            /* 기본 문법 예제 */
+            var num = 123.56;
+            var str = "예제1" + " 예제2";
+            var bool = 1>2;
+            alert(str + " | " + num + " | " + bool);
+            var num2 = Math.sqrt(-3);
+            alert(num2);
+            
+            /* 조건문 예제 */
+            if(typeof(num) == typeof(num2)){
+                alert("num과 num2는 같은 자료형(" + typeof(num) + ")입니다.");
+            }else{
+                alert("num의 자료형은 " + typeof(num) + "입니다.");
+                alert("num2의 자료형은 " + typeof(num2) + "입니다");
+                if(typeof(num) == 'number'){
+                    switch(num % 2){
+                        case 0 : alert("짝수입니다.");
+                            break;
+                        case 1 : alert("홀수입니다.");
+                            break;
+                        default : alert("정수가 아닙니다");
+                            break;
+                    }
+                }else{
+                    alert("숫자가 아닙니다");
+                }
+            }
+
+            /* 반복문 예제 */
+            var output='';
+            for(var i = 0; i<10; i++){
+                for(var j = 0; j<i; j++){
+                    output += '*';
+                }
+                output += '\n';
+            }
+            alert(output);
+
+            /* arguments 예제 */
+            function sumAll(){
+                var output = 0;
+                for(var i = 0; i<arguments.length; i++){
+                    output += arguments[i];
+                }
+                return output;
+            }
+            alert(sumAll(1, 2, 3, 4, 5, 6, 7, 8, 9));
+
+            /* 콜백함수 예제 */
+            function callTenTimes(callback){
+                for(var i = 0; i < 10; i++){
+                    callback();
+                }
+            }
+
+            var callback = function() {
+                alert('함수 호출');
+            };
+            callTenTimes(callback);
+
+            /* 코드 실행 함수 예제 */
+            var willEval = '';
+            willEval += 'var number = 10;';
+            willEval += 'alert(number);';
+            eval(willEval);            
+
+            //실습문제
+            /* 1부터 100까지 곱하는 프로그램 만들기 */
+            var output = 1;
+            for(var i = 1; i<=100; i++){
+                output *= i;
+            }
+            alert(output);
+
+            /* 사용자로부터 입력받아 특정 숫자부터 특정 숫자까지 곱하기 */
+            var num1 = prompt('num1를 입력하세요.', '');
+            var num2 = prompt('num2를 입력하세요.', '');
+            output = 1;
+            for(var i = num1; i<=num2; i++){
+                output *= i;
+            }
+            alert(output);
+
+            /* 함수만들기 - 1 : power */
+            function power(){
+                var output = 1;
+                if(arguments.length == 1){
+                    output = arguments[0] * arguments[0];
+                } else if(arguments.length == 2) {
+                    for(var i = 0; i<arguments[1]; i++){
+                        output *= arguments[0];
+                    }
+                }
+                return output;
+            }
+            alert(power(2) + " " + power(2,3));
+
+            /* 함수만들기 - 2 : multiply */
+            function multiply(){
+                var output = 1;
+                for(var i = 0; i<arguments.length; i++){
+                    output *= arguments[i];
+                }
+                return output;
+            }
+            alert(multiply(1,2,3,4,5));
+
+        </script>
+    </head>
+    <body>
+        <h1>2주차 실습 예제</h1>
+    </body>
+</html>

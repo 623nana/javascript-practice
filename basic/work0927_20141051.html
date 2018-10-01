@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Week4</title>
+        <!-- 자바스크립트 작성 -->
+        <script>
+            /* 실행시점중요 */
+
+            var output = "";
+            
+            for(var key in window){
+                /* window에 관련된 속성들 */
+                output += "-" + key + ":" + window[key] + "\n";
+            }
+
+            alert(output);
+            console.log(output);
+
+            var child = window.open("","","width = 300, height = 300");
+            
+            if(child){
+                child.document.write("<h1>팝업창</h1>")
+            } else {
+                alert("팝업이 차단되었습니다. 해제해주세요!");
+            }
+
+            child.moveTo(30, 30);
+
+            /* setInterval(익명함수, 시간) */
+            var siId = setInterval(function() {
+                child.moveBy(20, 20);
+            }, 1000);
+
+            setTimeout(function() {
+                clearInterval(siId);
+                child.location.href = "http://dongduk.ac.kr";
+            }, 5000);
+            window.onload = function() {
+                alert("윈도우 onlaod");
+                var img = document.createElement('img');
+                img.src = 'image.png';
+                img.width = 250;
+                img.height = 250;
+                document.body.appendChild(img);
+
+                var h1 = document.getElementById('header1');
+                h1.innerHTML += "-1";
+                h1.onclick = function () {
+                    this.style.color = 'red';
+                };
+                h1.onclick();
+
+                var h2 = document.getElementById('header2');
+                h2.onclick = function () {
+                    alert("HEADER - 2");
+                };
+
+                var param = document.getElementById('param');
+                param.onclick = function (e) {
+                    var event = e || window.event;
+                    alert("paragraph");
+
+                    event.cancelBubble = true;
+                    if(event.stopPropagation){
+                        event.stopPropagation();
+                    }
+                };
+            }
+
+            /* 실습 */
+            var products = [];
+            function Product(n, w, p){
+                this.name = n;
+                this.weight = w;
+                this.price = p;
+            }
+            Product.prototype.Calculate = function(weight){
+                return this.name + "는 " + this.weight + "g당" + this.price + "입니다 .구매가격은" + this.price*weight / this.weight
+                        +"원입니다";
+            }
+
+            function inputProd(){
+                var n = document.getElementById('pName').value;
+                var w = document.getElementById('pWeight').value;
+                var p = document.getElementById('pPrice').value;
+                products.push(new Product(n, w, p));
+            }
+
+            function displayProd(){
+                var dv = document.getElementById("divProd");
+                for(var i = 0; i < products.length; i++){
+                    dv.innerHTML += '<input type=radio id="meat" name="meat" value="' + i + '">' + products[i].name + "</input>";
+                }
+            }
+
+            function calProd(){
+                var pName = document.getElementsByName("meat");
+                var chk = -1;
+
+                for(var i = 0; i<pName.length; i++){
+                    if(pName[i].checked){
+                        chk = pName[i].value;
+                        break;
+                    }
+                }
+                if(chk == -1){
+                    alert("상품을 선택해주세요!");
+                    return;
+                }
+
+                var weight = document.getElementById('pPureWeight').value;
+                alert(products[chk].Calculate(weight));
+
+            }
+        </script>
+    </head>
+    <body>
+        <h1>4주차 실습 예제</h1>
+        <h1 id="header1">HEADER</h1>
+        <h1 id="header2">
+            <p id="param">paragraph</p>
+        </h1>
+        <div>
+                이름: <input id = "pName" /><br />
+                무게: <input id = "pWeight" /><br />
+                가격: <input id = "pPrice" /><br />
+                <button onclick = "inputProd();">상품입력</button><br /><br />
+                <button onclick = "displayProd();">상품출력</button><br />
+                <div id="divProd"></div>
+                구매무게 : <input id="pPureWeight" value="" />
+                <button onclick = "calProd();">상품가격출력</button><br /><br />
+            </div>
+    </body>
+</html>
