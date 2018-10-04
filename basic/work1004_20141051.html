@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Week5</title>
+        <!-- 링크 꼭..! -->
+        <script src="jquery-3.3.1.js"></script>
+        <script>
+            $(document).ready(function() {
+                alert("ready - 1");
+            });
+            $(document).ready(function() {
+                alert("ready - 2");
+                $('h1').css('color', 'red');
+                $('#header1').css('color', 'blue');
+                $('h1#header2').css('color', 'orange');
+                $('.item').css('color', 'yellow');
+                $('h1.item').css('background', 'green');
+                $('.item.select').css('color', 'blue');
+
+                var inpt = $('#inpt').val();
+                alert(inpt);
+
+                // innerHTML과 비슷한..
+                $('#divHtml').html('테스트');
+
+                $('#btn0').on('click', function() {
+                    var value = $('select > option:selected').val();
+                    alert(value);
+                });
+
+                $('#btn1').on('click', function() {
+                    // 세개 모두 같은 방법
+                    var value = $('#divR input[name="ra"]:checked').val();
+                    // var value2 = $('#divR input:radio:checked').val();
+                    // var value3 = $('#divR input[type="radio"]:checked').val();
+                    alert(value);
+                });
+
+                $('#btn2').on('click', function() {
+                    $('tr:odd').css('background', 'red');
+                    $('#tb1 tr:even').css('background', 'blue');
+                    $('#tb1 tr:first').css('background', 'yellow');
+                    // 체이닝 - 배경을 바꾸고 글씨를 바꾼다
+                    $('#tb2 tr:last').css('background', 'pink').css('color', 'green');
+                });
+
+                var array = [
+                    {name:'n1', link:'11'},
+                    {name:'n2', link:'12'},
+                    {name:'n3', link:'13'}
+                ];
+
+                //index가 1인 것의 이름
+                $.each(array, function(idx, item){
+                    if(idx == 1) alert(item.name);
+                });
+
+                var object = {};
+                object.name = 'RintInTta';
+                object.gender = 'Male';
+                object.part = 'Second Guitar';
+                alert(JSON.stringify(object));
+                
+                // object에 추가
+                $.extend(object, {region: 'Seoul', part: 'Piano'});
+                alert(JSON.stringify(object));
+
+            });
+            window.onload = function () {
+                alert("onload - 1");
+            }
+            window.onload = function () {
+                alert("onload - 2");
+                var h1 = document.getElementById('header1');
+                h1.style.color = 'green';
+            }
+
+            // 실습 예제
+            var products = [];
+            function Product(n, w, p){
+                this.name = n;
+                this.weight = w;
+                this.price = p;
+            }
+
+            Product.prototype.Calculate = function(weight){
+                return this.name + "는 " + this.weight + "g당" + this.price + "입니다 .구매가격은" + this.price*weight / this.weight
+                        +"원입니다";
+            }
+
+            function inputProd(){
+                var n = $('#pName').val();
+                var w = $('#pWeight').val();
+                var p = $('#pPrice').val();
+                
+                products.push(new Product(n, w, p));
+                alert(products.length);
+            }
+
+            function displayProd(){
+                $.each(products, function(index, item) {
+                    $('#divProd').html($('#divProd').html() + '<input type=radio id="meat" name="meat" value="' + index + '">' + item.name + '</input>');
+                });
+            }
+
+            function calProd(){
+                var value = $('#divProd input[name="meat"]:checked').val();
+                alert(value);
+                if(value == undefined){
+                    alert('상품을 선택하세요');
+                }
+                var weight = $('#pPureWeight').val();
+                alert(products[value].Calculate(weight));
+
+            }
+        </script>
+    </head>
+    <body>
+        <h1>5주차 실습 예제</h1>
+        <h1 id = 'header1'>Process - 1</h1>
+        <h1 id = 'header2'>Process - 2</h1>
+        <h1 id = 'header3' class="item">Process - 3</h1>
+        <h1 id = 'header4' class="item select">Process - 4</h1>
+
+        <input id="inpt" value="input value" /><br /><br />
+        
+        <div id = "divHtml">nothing</div>
+        <select>
+            <option value="0">선택하세요</option>
+            <option value="1">1번</option>
+            <option value="2">2번</option>
+        </select>
+        <button id="btn0">Select</button><br /><br />
+
+        <div id="divR">
+            <input type="radio" name="ra" value="0">0번 &nbsp;
+            <input type="radio" name="ra" value="1">1번 &nbsp;
+        </div>
+        <button id="btn1">Radio</button><br /><br />
+
+        <table id="tb1">
+            <tr>
+                <td>1행</td>
+            </tr>
+            <tr>
+                <td>2행</td>
+            </tr>
+            <tr>
+                <td>3행</td>
+            </tr>
+            <tr>
+                <td>4행</td>
+            </tr>
+        </table>
+
+        <table id="tb2">
+            <tr>
+                <td>1행</td>
+            </tr>
+            <tr>
+                <td>2행</td>
+            </tr>
+            <tr>
+                <td>3행</td>
+            </tr>
+            <tr>
+                <td>4행</td>
+            </tr>
+        </table>
+        <button id="btn2">표색바꾸기</button><br /><br /><br />
+        <div>
+                이름: <input id = "pName" /><br />
+                무게: <input id = "pWeight" /><br />
+                가격: <input id = "pPrice" /><br />
+                <button id = "addItem" onclick = "inputProd();">상품입력</button><br /><br />
+                <button onclick = "displayProd();">상품출력</button><br />
+                <div id="divProd"></div>
+                구매무게 : <input id="pPureWeight" value="" />
+                <button onclick = "calProd();">상품가격출력</button><br /><br />
+            </div>
+    </body>
+</html>
