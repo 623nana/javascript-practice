@@ -93,12 +93,16 @@
                 var n = $('#pName').val();
                 var w = $('#pWeight').val();
                 var p = $('#pPrice').val();
-                
+                // 모든 칸을 채우지 않은 경우
+                if(n == "" || w == "" || p == ""){
+                    alert("입력되지 않은 칸이 있습니다!");
+                    return;
+                }
                 products.push(new Product(n, w, p));
-                alert(products.length);
             }
 
             function displayProd(){
+                $(divProd).html("");
                 $.each(products, function(index, item) {
                     $('#divProd').html($('#divProd').html() + '<input type=radio id="meat" name="meat" value="' + index + '">' + item.name + '</input>');
                 });
@@ -106,11 +110,17 @@
 
             function calProd(){
                 var value = $('#divProd input[name="meat"]:checked').val();
-                alert(value);
+                // 상품을 선택하지 않은 경우
                 if(value == undefined){
                     alert('상품을 선택하세요');
+                    return;
                 }
                 var weight = $('#pPureWeight').val();
+                // 상품을 선택했지만 구매무게를 입력하지 않은 경우
+                if(weight==""){
+                    alert('구매 무게를 입력하세요!');
+                    return;
+                }
                 alert(products[value].Calculate(weight));
 
             }
@@ -171,12 +181,12 @@
         <button id="btn2">표색바꾸기</button><br /><br /><br />
         <div>
                 이름: <input id = "pName" /><br />
-                무게: <input id = "pWeight" /><br />
-                가격: <input id = "pPrice" /><br />
+                무게: <input type = number id = "pWeight" /><br />
+                가격: <input type = number id = "pPrice" /><br />
                 <button id = "addItem" onclick = "inputProd();">상품입력</button><br /><br />
                 <button onclick = "displayProd();">상품출력</button><br />
                 <div id="divProd"></div>
-                구매무게 : <input id="pPureWeight" value="" />
+                구매무게 : <input type = number id="pPureWeight" />
                 <button onclick = "calProd();">상품가격출력</button><br /><br />
             </div>
     </body>
