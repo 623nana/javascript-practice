@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week9</title>
+<!-- 자바스크립트 작성 -->
+<script src="jquery-3.3.1.js"></script>
+<script>
+    function ajaxTest() {
+      var req = new XMLHttpRequest();
+      // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
+      req.open('GET', '/data.html', true); // false 동기, true 비동기
+      req.send();  
+      req.onreadystatechange = function(event){
+          console.log(req.readyState);
+          if(req.readyState == 4 ){
+              if(req.status == 200){
+                  document.getElementById('output').value = req.responseText;
+              }
+          }
+      }
+    //   alert(req.responseText);
+    //   document.body.innerHTML += req.responseText;
+    }
+
+    function ajaxTestJson(){
+        var req = new XMLHttpRequest();
+      // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
+      req.open('GET', '/data.json', true); // false 동기, true 비동기
+      req.send();  
+      req.onreadystatechange = function(event){
+          if(req.readyState == 4 ){
+              if(req.status == 200){
+                // var json = eval('(' + req.responseText + ')');
+                var json = JSON.parse(req.responseText);
+                var output = '';
+                json.forEach(elm => {
+                    console.log(elm.name);
+                })
+                // for(var i=0; i<json.length; i++){
+                //     for(var key in json[i]){
+                //         output += '<h1>' + i + ':' + json[i][key] + '</h1>';
+                //     }
+                // }
+                // document.body.innerHTML += output;
+                document.getElementById('output').value = req.responseText;
+              }
+          }
+      }
+    }
+
+    function ajaxTestXml(){
+        var req = new XMLHttpRequest();
+      // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
+      req.open('GET', '/data.xml', true); // false 동기, true 비동기
+      req.send();  
+      req.onreadystatechange = function(event){
+          console.log(req.readyState);
+          if(req.readyState == 4 ){
+              if(req.status == 200){
+                 console.log(req.responseXML);
+                var xml = req.responseXML;
+                var names = xml.getElementsByTagName('name');
+                var prices = xml.getElementsByTagName('price');
+                for (let i = 0; i < names.length; i++) {
+                    var name = names[i].childNodes[0].nodeValue;
+                    var price = prices[i].childNodes[0].nodeValue;                    
+                    document.body.innerHTML += '<h1>'+name+':'+name+'</h1>';  
+                    document.body.innerHTML += '<h2>'+price+':'+name+'</h2>'; 
+              }
+          }
+      }
+    }
+}
+
+function ajaxTestGET(){
+    // var req = new XMLHttpRequest();
+    //   // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
+    //   req.open('GET', '/products', false); // false 동기, true 비동기
+    //   req.send();  
+    //   alert(req.responseText);
+    //   document.getElementById('output').value = req.responseText;
+    var param = {
+        name: 'a',
+        price: 1555000,
+    }
+    $.ajax({
+        url: '/products',
+        type: 'get',
+        data: param,
+        dataType: 'text',
+        success: function(data){
+            $('#output').val(data);
+        }
+    })
+}
+
+function ajaxTestPOST(){
+    var param = {
+        name: 'a',
+        price: 1555000,
+    }
+    $.ajax({
+        url: '/products',
+        type: 'post',
+        data: param,
+        dataType: 'text',
+        success: function(data){
+            $('#output').val(data);
+        }
+    })
+}
+
+function ajaxTestCSV(){
+    var req = new XMLHttpRequest();
+      // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
+      req.open('GET', '/data.csv', true); // false 동기, true 비동기
+      req.send();  
+      req.onreadystatechange = function(event){
+          console.log(req.readyState);
+          if(req.readyState == 4 ){
+              if(req.status == 200){
+                  var output = '';
+                  output = req.responseText.split('>');
+                  alert(output);
+                  alert(output.length);
+                  for(var i = 0; i<output.length; i++){
+                      alert(output[i]);
+                      output[i] = output[i].split[','];
+                      for(var j = 1; j<output[i].length; j++){
+                          alert(output[i][j]);
+                          document.getElementById('output').value += output[i][j];
+                      }
+                  }
+              }
+          }
+      }
+    }
+</script>
+</head>
+<body>
+<h1>Ajax 예제</h1>
+<textarea id="output" disabled="disabled" cols="40" rows="5"></textarea>
+<br>
+<div id="ajax-event"></div>
+<div id="wrap"></div>
+<br>
+<button onclick="ajaxTest();">Ajax TEST(Html)</button>
+<button onclick="ajaxTestJson();">Ajax TEST(Json)</button>
+<button onclick="ajaxTestXml();">Ajax TEST(Xml)</button>
+<button onclick="ajaxTestGET();">Ajax GET</button>
+<button onclick="ajaxTestPOST();">Ajax POST</button>
+<button onclick="ajaxJqueryJson();">jQueryJSOn</button>
+<button onclick="ajaxTestCSV();">Ajax TEST(CSV)</button>
+
+<form id="my-form">
+<table>
+<tr>
+<td>Name</td>
+<td><input id="name" name="name" type="text"/></td>
+</tr>
+<tr>
+<td>Region</td>
+<td><input id="region" name="region" type="text"/></td>
+</tr>
+</table>
+<input type="submit" value="Get Ajax String"/>
+</form>
+</body>
+</html>
