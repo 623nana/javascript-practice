@@ -112,30 +112,22 @@ function ajaxTestPOST(){
 }
 
 function ajaxTestCSV(){
-    var req = new XMLHttpRequest();
-      // true 일 경우 바로 innerHTML이 실행되기 때문에 받아오는 내용이 없다.
-      req.open('GET', '/data.csv', true); // false 동기, true 비동기
-      req.send();  
-      req.onreadystatechange = function(event){
-          console.log(req.readyState);
-          if(req.readyState == 4 ){
-              if(req.status == 200){
-                  var output = '';
-                  output = req.responseText.split('>');
-                  alert(output);
-                  alert(output.length);
-                  for(var i = 0; i<output.length; i++){
-                      alert(output[i]);
-                      output[i] = output[i].split[','];
-                      for(var j = 1; j<output[i].length; j++){
-                          alert(output[i][j]);
-                          document.getElementById('output').value += output[i][j];
-                      }
-                  }
-              }
-          }
-      }
-    }
+    $.ajax({
+        url:'/data.csv',
+        type:'post',
+        dataType:'text',
+        success : function(data){
+            output = data.split('||')
+            for(var i =0; i<output.length;i++){
+                output[i] = output[i].split(',');
+                for(var j=0; j<output[i].length;j++){
+                    output[i][j] = output[i][j].trim()
+                }   
+                $('#output').val(output);
+            }
+        }
+    });
+}
 </script>
 </head>
 <body>

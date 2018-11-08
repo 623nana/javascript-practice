@@ -117,9 +117,9 @@ app.post('/products', function (request, response) {
 // 실습
 app.all('/data.csv', function(request, response){
     var output = '';
-    output+= '20141051,111,1111';
-    output+= '20141051,222,2222>';
-    output+= '20141051,333,3333>';
+    output+= '20141051,111,1111\n';
+    output+= '20141051,222,2222\n';
+    output+= '20141051,333,3333';
     response.send(output);
 });
 
