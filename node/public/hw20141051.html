@@ -7,7 +7,7 @@
         <script src="jquery-3.3.1.js"></script>
         <script>
             Calculate = function(products, weight){
-                return products.name + "는 " + products.weight + "g당 " + products.price + "원 입니다. g당 구매가격은" + products.price*weight / products.weight
+                return products.name + "는 " + products.weight + "g당 " + products.price + "원 입니다. g당 구매가격은" + products.price / products.weight
                         +"원입니다.\n전체 가격은 " + products.price*weight + "원 입니다!";
             }
             function inputProd(){
