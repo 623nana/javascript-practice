@@ -18,6 +18,13 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/select', function(req, res, next) {
+  /* SELECT */
+  client.query('select * from user', function(error, rslt){
+    res.render('user', {rslt:rslt});
+  });
+});
+
 router.get('/insert', function(req, res, next){
     /* INSERT */
   client.query('INSERT INTO user (id, password, nickname) VALUES (?, ?, ?)', ['hhhhh', '5000', 'hello'], function(error, fields){});
