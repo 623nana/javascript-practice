@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HW2</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.3.1.js"></script>
+    <script>
+      Calculate = function(products, weight){
+                return products.name + "는 " + products.weight + "g당 " + products.price + "원 입니다. g당 구매가격은" + products.price / products.weight
+                        +"원입니다.\n전체 가격은 " + products.price*weight + "원 입니다!";
+            }
+          function displayProd(){
+                $.ajax({
+                    url: '/select',
+                    type: 'post',
+                    dataType: 'text',
+                    success : function(rslt){
+                        var obj = JSON.parse(rslt);
+                        $(divProd).html("");
+                        $.each(obj, function(index, item) {
+                            $('#divProd').html($('#divProd').html() + '<input type=radio id="meat" name="meat" value="' + index + '">' + item.name + '</input>');
+                    });
+                    } 
+                })
+            }
+            function calProd(){
+                var value = $('#divProd input[name="meat"]:checked').val();
+                // 상품을 선택하지 않은 경우
+                if(value == undefined){
+                    alert('상품을 선택하세요');
+                    return;
+                }
+                var weight = $('#pPureWeight').val();
+                // 상품을 선택했지만 구매무게를 입력하지 않은 경우
+                if(weight==""){
+                    alert('구매 무게를 입력하세요!');
+                    return;
+                }
+                $.ajax({
+                    url: '/calculate',
+                    type: 'get',
+                    dataType: 'text',
+                    success: function(product){
+                        var obj = JSON.parse(product);
+                        alert(Calculate(obj[value], weight));
+                    }
+                });
+            }
+    </script>
+  </head>
+  <body>
+    <% if(session.login){ %>
+      <form action="logout" method="get">
+        <input type="submit" value="로그아웃" />
+      </form>
+      <% } else{ %>
+        <h2>로그인 페이지</h2>
+        <form method="post" action="/login">
+        <table>
+          <tr>
+            <td><label>ID</label></td>
+            <td><input type="text" name="id" /></td>
+          </tr>
+          <tr>
+            <td><label>비밀번호</label></td>
+            <td><input type="password" name="pw" /></td>
+          </tr>
+        </table>
+            <input type="submit" value="로그인" />
+          </form>
+      <% } %>
+      <br />
+      <div>
+        <% if(session.login){ %>
+        <form method="post" action="/insert">
+          이름: <input name = "pName" /><br />
+          무게: <input type = number name = "pWeight" /><br />
+          가격: <input type = number  name = "pPrice" /><br />
+          <input type="submit" value="상품입력" /><br /><br />
+        </form>
+        <% } %>
+        <button onclick = "displayProd();">상품출력</button><br /><br />
+          <div id="divProd"></div>
+          구매무게 : <input type = number id="pPureWeight" />
+          <button onclick = "calProd();">상품가격출력</button><br /><br />
+      </div>
+
+  </body>
+</html>
