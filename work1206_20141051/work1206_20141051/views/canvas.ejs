@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/farbtastic/farbtastic.css" />
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/farbtastic/farbtastic.js"></script>
+  <script>
+      // Point 생성자 함수를 생성합니다.
+      function Point(event, target) {
+          this.x = event.pageX - $(target).position().left;
+          this.y = event.pageY - $(target).position().top;
+      }
+  </script>
+    <script>
+        $(document).ready(function () {
+            // Canvas 객체를 추출합니다.
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            // 변수를 선언합니다.
+            var width = 5;
+            var opacity = 1.0;
+            var pressure = 1.0;
+            var color = '#000000';
+            var isDown = false;
+            var newPoint, oldPoint;
+
+            // UI를 구성합니다.
+            $('#colorpicker').farbtastic(function (data) {
+                color = data;
+            });
+
+            // 이벤트를 연결합니다.
+            canvas.addEventListener('mousedown', function (event) {
+                isDown = true;
+                oldPoint = new Point(event, this);
+            });
+            canvas.addEventListener('mouseup', function () { isDown = false; });
+            canvas.addEventListener('mousemove', function (event) {
+                if (isDown) {
+                    newPoint = new Point(event, this);
+                    socket.emit('draw', {
+                        width: width,
+                        color: color,
+                        x1: oldPoint.x,
+                        y1: oldPoint.y,
+                        x2: newPoint.x,
+                        y2: newPoint.y
+                    });
+                    oldPoint = newPoint;
+                }
+            });
+
+            $('#sliderA').change(function () {
+                width = $(this).val();
+            });
+
+            $('#sliderB').change(function () {
+                opacity = $(this).val() / 100;
+            });
+
+            // 소켓 이벤트를 연결합니다.
+            var socket = io.connect();
+            socket.emit('join', '<%= room %>');
+            socket.on('line', function (data) {
+                context.lineWidth = data.width;
+                context.strokeStyle = data.color;
+                context.globalAlpha = opacity * pressure;
+                context.beginPath();
+                context.moveTo(data.x1, data.y1);
+                context.lineTo(data.x2, data.y2);
+                context.stroke();
+            });
+        });
+    </script>
+    <style media="screen">
+      input {
+        width: 95%;
+      }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+    <table border="10">
+        <tr>
+            <td rowspan="3">
+                <!-- 캔버스 -->
+                <canvas id="canvas" width="1200" height="800"></canvas>
+            </td>
+            <td height="200">
+                <!-- 색상 선택기 -->
+                <div id="colorpicker"></div>
+            </td>
+        </tr>
+        <tr>
+            <td height="25">
+                <!-- 슬라이더: 두께 선택 -->
+                <input id="sliderA" type="range" min="0" max="20" value="5" /><br/>
+                <!-- 슬라이더: 투명도 선택 -->
+                <input id="sliderB" type="range" min="0" max="100" />
+            </td>
+        </tr>
+        <tr>
+            <td style="background: orange;"></td>
+        </tr>
+    </table>
+</body>
+</html>

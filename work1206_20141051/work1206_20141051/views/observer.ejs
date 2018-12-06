@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px; 
+        } 
+ 
+        html, body, #map { 
+            height: 100%; 
+        } 
+    </style> 
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script> 
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+    <script src="/socket.io/socket.io.js"></script> 
+    <script> 
+        $(document).ready(function () { 
+            // 함수를 생성합니다. 
+            function setMarker(latitude, longitude) { 
+                var marker = new google.maps.Marker({ 
+                    position: new google.maps.LatLng(latitude, longitude), 
+                    map: map 
+                }); 
+            } 
+ 
+            // 변수를 생성합니다. 
+            var name = prompt('이름을 입력하세요.', '이름'); 
+            var socket = io.connect(); 
+ 
+            socket.emit('join', name); 
+ 
+            // 지도를 생성합니다. 
+            var temp = document.getElementById('map'); 
+            var map = new google.maps.Map(temp, { 
+                zoom: 6, 
+                center: new google.maps.LatLng(37, 126), 
+                mapTypeId: google.maps.MapTypeId.ROADMAP 
+            }); 
+ 
+            // 초기 위치를 생성합니다. 
+            /* 
+            $.getJSON('/showdata', { name: name }, function (data) { 
+                $.each(data, function (index, item) { 
+                    setMarker(item.latitude, item.longitude); 
+                }); 
+            }); 
+ 
+            // 소켓 이벤트를 연결합니다. 
+            socket.on('receive', function (data) { 
+                setMarker(data.latitude, data.longitude); 
+            });*/ 
+            var array = [
+
+  { 
+      "name": "test",
+      "latitude": 37.55824765026366,
+      "longitude": 126.82509847539825 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55825014374689,
+      "longitude": 126.82509928289858 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.558249997901925,
+      "longitude": 126.8251007507675 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55834679695781,
+      "longitude": 126.82518760093451 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55834665762982,
+      "longitude": 126.825188787667 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.558378912456966,
+      "longitude": 126.82521832023501 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.5583787904841,
+      "longitude": 126.82521930739324 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.5582824349956,
+      "longitude": 126.82512916058889 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55828201090124,
+      "longitude": 126.82513318412546 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55819911886881,
+      "longitude": 126.82507176149541 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55812164386792,
+      "longitude": 126.82504008987239 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55825681311021,
+      "longitude": 126.82506640807775 
+  },
+  { 
+      "name": "test",
+      "latitude": 37.55833440251313,
+      "longitude": 126.82492115485917 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.558114738730225,
+      "longitude": 126.82525932183464 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.558251563023816,
+      "longitude": 126.82508764215777 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.558114738730225,
+      "longitude": 126.82525932183464 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55809126812427,
+      "longitude": 126.82534085547725 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55810401887691,
+      "longitude": 126.82537261545218 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5580117990374,
+      "longitude": 126.8253943143314 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55793659694566,
+      "longitude": 126.82537494475432 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557863528786164,
+      "longitude": 126.82535584779869 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55779231636719,
+      "longitude": 126.82533727017837 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55830234571076,
+      "longitude": 126.82548556719657 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55830727425019,
+      "longitude": 126.82548852960288 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55830596743379,
+      "longitude": 126.82547767636257 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55792175201653,
+      "longitude": 126.82653849613679 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55796113591206,
+      "longitude": 126.82670414789928 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557953528441764,
+      "longitude": 126.82657207868675 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55785420755927,
+      "longitude": 126.8266228685802 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5578732779468,
+      "longitude": 126.82662099816882 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55783401250636,
+      "longitude": 126.82660830459162 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55794196199524,
+      "longitude": 126.82655729377323 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55800545990076,
+      "longitude": 126.82671699731678 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55780872624033,
+      "longitude": 126.82665746627129 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55775544524589,
+      "longitude": 126.82664435253183 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557700072345284,
+      "longitude": 126.82661813099632 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55759290938195,
+      "longitude": 126.82663881267642 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55757266914982,
+      "longitude": 126.82663563241677 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55754446122459,
+      "longitude": 126.82670500829342 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55752065287926,
+      "longitude": 126.82666234680873 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55738055969185,
+      "longitude": 126.82658377469053 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55740428956571,
+      "longitude": 126.82659230643435 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557349889563135,
+      "longitude": 126.82661131899377 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557246616137256,
+      "longitude": 126.82651209060695 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55723065907599,
+      "longitude": 126.82660413225332 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55729395896569,
+      "longitude": 126.8265449337548 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55714432462784,
+      "longitude": 126.82648457803589 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5570527209956,
+      "longitude": 126.82640734409988 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55683796669971,
+      "longitude": 126.82647937319967 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55669677772039,
+      "longitude": 126.82651485319327 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.556407731324484,
+      "longitude": 126.82649710722764 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5565522600591,
+      "longitude": 126.8265557772578 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55663215327528,
+      "longitude": 126.82656795158678 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.556668966539156,
+      "longitude": 126.82657816259302 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55664791889009,
+      "longitude": 126.82661799609681 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55601796325068,
+      "longitude": 126.8263534271408 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555872243864044,
+      "longitude": 126.82652508851776 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55589324053149,
+      "longitude": 126.82654034358153 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55596746228407,
+      "longitude": 126.82649265055248 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555978065391585,
+      "longitude": 126.82646750484297 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55597383253048,
+      "longitude": 126.82645476435015 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55597039595018,
+      "longitude": 126.82643909019122 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5558847986513,
+      "longitude": 126.82642246250957 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55567732880606,
+      "longitude": 126.82643702169486 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55568877270268,
+      "longitude": 126.82649364576147 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555700207175676,
+      "longitude": 126.82654970596423 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55571150619929,
+      "longitude": 126.82660522764948 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555698392938794,
+      "longitude": 126.82659717425436 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55569532706835,
+      "longitude": 126.82658757083435 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555692334255994,
+      "longitude": 126.82657800556488 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55568934993059,
+      "longitude": 126.8265684880369 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55564450379008,
+      "longitude": 126.82656255993963 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555639580558775,
+      "longitude": 126.82655062306901 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55563484386099,
+      "longitude": 126.8265387333868 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55563013263384,
+      "longitude": 126.82652690913568 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555239216110934,
+      "longitude": 126.82553717887177 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55516930405844,
+      "longitude": 126.82508393523541 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555134370585556,
+      "longitude": 126.8248573242331 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55494870330213,
+      "longitude": 126.82461420226002 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.554871489484675,
+      "longitude": 126.82450039055014 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5548328875933,
+      "longitude": 126.8244434871914 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55481359021889,
+      "longitude": 126.82441503728883 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55494783560432,
+      "longitude": 126.82451858715083 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55502362864302,
+      "longitude": 126.82457464602264 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55506154747339,
+      "longitude": 126.82460268647765 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55504598368605,
+      "longitude": 126.82238931211043 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555042204436795,
+      "longitude": 126.82128223488527 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5550403234562,
+      "longitude": 126.82072870051618 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55497182375591,
+      "longitude": 126.8225760558566 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55494409225139,
+      "longitude": 126.82349659136098 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55493023032085,
+      "longitude": 126.82395685683095 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55501164177419,
+      "longitude": 126.82429634064104 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555055557717644,
+      "longitude": 126.82446354447656 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.555077520848066,
+      "longitude": 126.82454714223242 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55690511490389,
+      "longitude": 126.82575942764332 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557818095521135,
+      "longitude": 126.82633949388648 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.558274586750564,
+      "longitude": 126.82662952562303 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55680240279345,
+      "longitude": 126.82570455948128 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55595094760401,
+      "longitude": 126.8251676516089 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55552521818368,
+      "longitude": 126.82489919537528 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557128168812305,
+      "longitude": 126.82590939977838 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55792962478647,
+      "longitude": 126.82641447871795 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.5583303526652,
+      "longitude": 126.82666701805721 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55853071652254,
+      "longitude": 126.82679328762819 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55746404105453,
+      "longitude": 126.8304766156221 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.557074335625124,
+      "longitude": 126.83168228770286 
+  },
+  { 
+      "name": "rintiantta",
+      "latitude": 37.55697693870319,
+      "longitude": 126.83198361470873 
+  }
+            ]; 
+            array.forEach(function (data) { 
+                setMarker(data.latitude, data.longitude) 
+            }); 
+        }); 
+    </script> 
+</head> 
+<body> 
+    <div id="map"> 
+ 
+    </div> 
+</body> 
+</html> 
